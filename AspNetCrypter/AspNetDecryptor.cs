@@ -46,19 +46,19 @@ namespace LowLevelDesign.AspNetCrypter
 
                 switch (validationKeyLength) {
                     case 128:
-                        validationAlgorigthm = HMACMD5.Create();
+                        validationAlgorigthm = HMAC.Create("HMACMD5");
                         break;
                     case 160:
-                        validationAlgorigthm = HMACSHA1.Create();
+                        validationAlgorigthm = HMAC.Create("HMACSHA1");
                         break;
                     case 256:
-                        validationAlgorigthm = HMACSHA256.Create();
+                        validationAlgorigthm = HMAC.Create("HMACSHA256");
                         break;
                     case 384:
-                        validationAlgorigthm = HMACSHA384.Create();
+                        validationAlgorigthm = HMAC.Create("HMACSHA384");
                         break;
                     case 512:
-                        validationAlgorigthm = HMACSHA512.Create();
+                        validationAlgorigthm = HMAC.Create("HMACSHA512");
                         break;
                     default:
                         throw new ArgumentException("Validation algorithm could not be recognized.");

@@ -27,9 +27,9 @@ namespace LowLevelDesign.AspNetCrypter
 
             var p = new OptionSet
             {
-                { "vk", "the validation key (in hex)", v => validationKeyAsText = v },
-                { "dk", "the decryption key (in hex)", v => decryptionKeyAsText = v },
-                { "p|purpose", "the encryption context - for more information check -?", v => purposeKey = v },
+                { "vk=", "the validation key (in hex)", v => validationKeyAsText = v },
+                { "dk=", "the decryption key (in hex)", v => decryptionKeyAsText = v },
+                { "p|purpose=", "the encryption context - for more information check -?", v => purposeKey = v },
                 { "base64", "data is provided in base64 format (otherwise we assume hex)", v => isBase64 = v != null },
                 { "h|help", "Show this message and exit", v => showhelp = v != null },
                 { "?", "Show this message and exit", v => showhelp = v != null }
@@ -96,7 +96,8 @@ namespace LowLevelDesign.AspNetCrypter
             Console.WriteLine();
             var decryptor = new AspNetDecryptor(purpose, new CryptographicKey(decryptionKey), new CryptographicKey(validationKey));
             // FIXME nicely print the decrypted data
-            Console.WriteLine(decryptor.DecryptData(encryptedData));
+            var decryptedData = decryptor.DecryptData(encryptedData);
+            Console.WriteLine(decryptedData);
             Console.WriteLine();
         }
 

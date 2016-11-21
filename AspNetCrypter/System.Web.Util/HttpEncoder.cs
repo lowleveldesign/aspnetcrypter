@@ -577,9 +577,18 @@ namespace System.Web.Util
             return HttpEncoderUtility.UrlEncodeSpaces(UrlEncodeNonAscii(value, Encoding.UTF8));
         }
 
-        internal byte[] UrlTokenDecode(string input) {
+        internal byte[] UrlTokenDecode(string input, bool lastCharIsPadLength = false) {
             if (input == null)
                 throw new ArgumentNullException("input");
+
+            if (!lastCharIsPadLength) {
+                int num = 3 - (input.Length + 3) % 4;
+                if (num == 0)
+                {
+                    return new byte[0];
+                }
+                input = input + (char)('0' + num);
+            }
 
             int len = input.Length;
             if (len < 1)
