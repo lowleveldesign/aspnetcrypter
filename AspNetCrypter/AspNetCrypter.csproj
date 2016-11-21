@@ -7,7 +7,7 @@
     <ProjectGuid>{9B71A758-F3B5-4C19-BA7A-9546DA73F60B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AspNetCrypter</RootNamespace>
+    <RootNamespace>LowLevelDesign.AspNetCrypter</RootNamespace>
     <AssemblyName>AspNetCrypter</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspNetCrypter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="AspNetDecryptor.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System.Web.Security.Cryptography\CryptoAlgorithms.cs" />

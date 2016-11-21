@@ -1,15 +1,14 @@
-using System.Linq;
 using NDesk.Options;
 using System;
-using System.Diagnostics;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Web.Security.Cryptography;
 using System.Web.Util;
 
-namespace LowLevelDesign
+namespace LowLevelDesign.AspNetCrypter
 {
-    public static class AspNetCrypter
+    public static class Program
     {
         private static readonly Dictionary<string, Purpose> purposeMap = new Dictionary<string, Purpose>() {
             { "owin.cookie", Purpose.User_MachineKey_Protect.AppendSpecificPurposes(
@@ -73,10 +72,19 @@ namespace LowLevelDesign
                     encryptedData = null;
                 }
             } else {
-                if (textToDecrypt.StartsWith("0x")) {
+                if (textToDecrypt.StartsWith("0x", StringComparison.OrdinalIgnoreCase)) {
                     textToDecrypt = textToDecrypt.Substring(2);
                 }
                 encryptedData = CryptoUtil.HexToBinary(textToDecrypt);
+            }
+            byte[] decryptionKey = CryptoUtil.HexToBinary(decryptionKeyAsText.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ?
+                decryptionKeyAsText.Substring(2) : decryptionKeyAsText);
+            byte[] validationKey = CryptoUtil.HexToBinary(validationKeyAsText.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ?
+                validationKeyAsText.Substring(2) : validationKeyAsText);
+            if (decryptionKey == null || validationKey == null) {
+                Console.Error.WriteLine("ERROR: invalid encryption or validation key");
+                Console.Error.WriteLine();
+                return;
             }
 
             if (encryptedData == null) {
@@ -85,9 +93,11 @@ namespace LowLevelDesign
                 return;
             }
 
-            Console.WriteLine("--- BEGIN DECRYPTED DATA ---");
-            Console.WriteLine(DecryptData(encryptedData, purpose));
-            Console.WriteLine("--- END DECRYPTED DATA ---");
+            Console.WriteLine();
+            var decryptor = new AspNetDecryptor(purpose, new CryptographicKey(decryptionKey), new CryptographicKey(validationKey));
+            // FIXME nicely print the decrypted data
+            Console.WriteLine(decryptor.DecryptData(encryptedData));
+            Console.WriteLine();
         }
 
         static void ShowHelp(OptionSet p)
@@ -101,11 +111,6 @@ namespace LowLevelDesign
             Console.WriteLine("Options:");
             p.WriteOptionDescriptions(Console.Out);
             Console.WriteLine();
-        }
-
-        static string DecryptData(byte[] data, Purpose purpose)
-        {
-            throw new NotImplementedException();
         }
     }
 }
