@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Web.Security.Cryptography;
 
@@ -8,18 +11,41 @@ namespace LowLevelDesign.AspNetCrypter
     {
         private readonly CryptographicKey decryptionKey;
         private readonly CryptographicKey validationKey;
+        private readonly bool isGzipped = false;
 
-        public AspNetDecryptor(Purpose purpose, CryptographicKey decryptionKey, CryptographicKey validationKey)
+        public AspNetDecryptor(Purpose purpose, CryptographicKey decryptionKey, CryptographicKey validationKey, bool isGzipped)
         {
             this.decryptionKey = SP800_108.DeriveKey(decryptionKey, purpose);
             this.validationKey = SP800_108.DeriveKey(validationKey, purpose);
+            this.isGzipped = isGzipped;
         }
 
         public byte[] DecryptData(byte[] data)
         {
             var cryptoService = new NetFXCryptoService(new GuessCryptoAlgorithmFactory(decryptionKey.KeyLength, 
                 validationKey.KeyLength), decryptionKey, validationKey);
-            return cryptoService.Unprotect(data);
+
+            var decryptedData = cryptoService.Unprotect(data);
+            return isGzipped ? Decompress(decryptedData) : decryptedData;
+        }
+
+        private byte[] Decompress(byte[] data)
+        {
+			using (MemoryStream memoryStream = new MemoryStream(data))
+			{
+				using (GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
+				{
+                    var bigBuffer = new List<byte>(2048);
+                    var buffer = new byte[512];
+                    int read = 0;
+                    while ((read = gZipStream.Read(buffer, 0, buffer.Length)) == buffer.Length) {
+                        bigBuffer.AddRange(buffer);
+                    }
+                    var result = new byte[bigBuffer.Count + read];
+                    Array.Copy(buffer, 0, result, bigBuffer.Count, read);
+                    return result;
+				}
+			}
         }
 
         private class GuessCryptoAlgorithmFactory : ICryptoAlgorithmFactory

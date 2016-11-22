@@ -10,11 +10,11 @@ namespace LowLevelDesign.AspNetCrypter
 {
     public static class Program
     {
-        private static readonly Dictionary<string, Purpose> purposeMap = new Dictionary<string, Purpose>() {
+        private static readonly Dictionary<string, Purpose> purposeMap = new Dictionary<string, Purpose>(StringComparer.Ordinal) {
             { "owin.cookie", Purpose.User_MachineKey_Protect.AppendSpecificPurposes(
                 new [] {
                     "Microsoft.Owin.Security.Cookies.CookieAuthenticationMiddleware",
-                    "TwoFactorRememberBrowser",
+                    "ApplicationCookie",
                     "v1"
                 }) }
         };
@@ -94,10 +94,11 @@ namespace LowLevelDesign.AspNetCrypter
             }
 
             Console.WriteLine();
-            var decryptor = new AspNetDecryptor(purpose, new CryptographicKey(decryptionKey), new CryptographicKey(validationKey));
+            var decryptor = new AspNetDecryptor(purpose, new CryptographicKey(decryptionKey), new CryptographicKey(validationKey), 
+                "owin.cookie".Equals(purposeKey, StringComparison.Ordinal));
             // FIXME nicely print the decrypted data
             var decryptedData = decryptor.DecryptData(encryptedData);
-            Console.WriteLine(decryptedData);
+            Console.WriteLine(Hexify.Hex.PrettyPrint(decryptedData));
             Console.WriteLine();
         }
 

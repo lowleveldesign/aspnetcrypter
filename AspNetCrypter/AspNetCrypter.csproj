@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hex\Hex.cs" />
+    <Compile Include="Hex\HexEncoder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AspNetDecryptor.cs" />
     <Compile Include="Options.cs" />
