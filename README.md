@@ -5,7 +5,7 @@ ASP.NET Crypter
 It's a small tool to decrypt the ASP.NET protected data offline. The crypto code is copied from the Microsoft's [reference source repository](https://github.com/Microsoft/referencesource). For now it supports only owin.cookies, but please create an issue if you would like to have another part of ASP.NET decrypted. The command line looks as follows:
 
 ```
-AspNetCrypter v0.0.1.0 - collects traces of Windows processes
+AspNetCrypter v0.0.1.0 - a tool for decryption ASP.NET protected data
 Copyright (C) 2016 Sebastian Solnica (@lowleveldesign)
 
 Usage: aspnetcrypter [OPTIONS] encrypteddata

@@ -108,7 +108,7 @@ namespace LowLevelDesign.AspNetCrypter
 
         static void ShowHelp(OptionSet p)
         {
-            Console.WriteLine("AspNetCrypter v{0} - collects traces of Windows processes",
+            Console.WriteLine("AspNetCrypter v{0} - a tool for decryption ASP.NET protected data",
                 Assembly.GetExecutingAssembly().GetName().Version.ToString());
             Console.WriteLine("Copyright (C) 2016 Sebastian Solnica (@lowleveldesign)");
             Console.WriteLine();
