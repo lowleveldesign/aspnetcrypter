@@ -49,7 +49,7 @@ namespace LowLevelDesign.AspNetCrypter
                 Console.Error.WriteLine();
                 showhelp = true;
             }
-            if (validationKeyAsText == null || decryptionKeyAsText == null || purposeKey == null) {
+            if (!showhelp && (validationKeyAsText == null || decryptionKeyAsText == null || purposeKey == null)) {
                 Console.Error.WriteLine("ERROR: all parameters are required");
                 Console.Error.WriteLine();
                 showhelp = true;
