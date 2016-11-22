@@ -1,6 +1,7 @@
 using NDesk.Options;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web.Security.Cryptography;
@@ -29,7 +30,7 @@ namespace LowLevelDesign.AspNetCrypter
             {
                 { "vk=", "the validation key (in hex)", v => validationKeyAsText = v },
                 { "dk=", "the decryption key (in hex)", v => decryptionKeyAsText = v },
-                { "p|purpose=", "the encryption context - for more information check -?", v => purposeKey = v },
+                { "p|purpose=", "the encryption context\n(currently only: owin.cookie)", v => purposeKey = v },
                 { "base64", "data is provided in base64 format (otherwise we assume hex)", v => isBase64 = v != null },
                 { "h|help", "Show this message and exit", v => showhelp = v != null },
                 { "?", "Show this message and exit", v => showhelp = v != null }
@@ -53,8 +54,8 @@ namespace LowLevelDesign.AspNetCrypter
                 Console.Error.WriteLine();
                 showhelp = true;
             }
-            Purpose purpose;
-            if (!purposeMap.TryGetValue(purposeKey, out purpose)) {
+            Purpose purpose = null;
+            if (!showhelp && !purposeMap.TryGetValue(purposeKey, out purpose)) {
                 Console.Error.WriteLine("ERROR: invalid purpose");
                 Console.Error.WriteLine();
                 showhelp = true;
@@ -63,6 +64,10 @@ namespace LowLevelDesign.AspNetCrypter
                 ShowHelp(p);
                 return;
             }
+            Debug.Assert(purpose != null);
+            Debug.Assert(textToDecrypt != null);
+            Debug.Assert(decryptionKeyAsText != null);
+            Debug.Assert(validationKeyAsText != null);
 
             byte[] encryptedData;
             if (isBase64) {
@@ -96,7 +101,6 @@ namespace LowLevelDesign.AspNetCrypter
             Console.WriteLine();
             var decryptor = new AspNetDecryptor(purpose, new CryptographicKey(decryptionKey), new CryptographicKey(validationKey), 
                 "owin.cookie".Equals(purposeKey, StringComparison.Ordinal));
-            // FIXME nicely print the decrypted data
             var decryptedData = decryptor.DecryptData(encryptedData);
             Console.WriteLine(Hexify.Hex.PrettyPrint(decryptedData));
             Console.WriteLine();
@@ -113,6 +117,7 @@ namespace LowLevelDesign.AspNetCrypter
             Console.WriteLine("Options:");
             p.WriteOptionDescriptions(Console.Out);
             Console.WriteLine();
+
         }
     }
 }
