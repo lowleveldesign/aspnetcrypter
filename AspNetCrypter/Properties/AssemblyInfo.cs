@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AspNetCrypter")]
-[assembly: AssemblyDescription("AspNetCrypter - a tool for decryption ASP.NET protected data")]
+[assembly: AssemblyDescription("AspNetCrypter - a tool for decrypting ASP.NET protected data")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LowLevelDesign")]
 [assembly: AssemblyProduct("AspNetCrypter")]
-[assembly: AssemblyCopyright("Copyright © Sebastian Solnica 2016")]
+[assembly: AssemblyCopyright("Copyright © 2016 Sebastian Solnica (@lowleveldesign)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

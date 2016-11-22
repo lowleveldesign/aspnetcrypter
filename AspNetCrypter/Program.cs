@@ -108,9 +108,10 @@ namespace LowLevelDesign.AspNetCrypter
 
         static void ShowHelp(OptionSet p)
         {
-            Console.WriteLine("AspNetCrypter v{0} - a tool for decryption ASP.NET protected data",
-                Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            Console.WriteLine("Copyright (C) 2016 Sebastian Solnica (@lowleveldesign)");
+            Console.WriteLine("{0} v{1} - {2}", Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title,
+                Assembly.GetExecutingAssembly().GetName().Version.ToString(), 
+                Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyDescriptionAttribute>().Description);
+            Console.WriteLine(Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright);
             Console.WriteLine();
             Console.WriteLine("Usage: aspnetcrypter [OPTIONS] encrypteddata");
             Console.WriteLine();
