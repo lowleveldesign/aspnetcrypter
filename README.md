@@ -1,6 +1,6 @@
 
-ASP.NET Crypter
----------------
+ASP.NET Crypter (AspNetCrypter)
+-------------------------------
 
 It's a small tool to decrypt the ASP.NET protected data offline. The crypto code is copied from the Microsoft's [reference source repository](https://github.com/Microsoft/referencesource). For now it supports only owin.cookies, but please create an issue if you would like to have another part of ASP.NET decrypted. The command line looks as follows:
 
@@ -53,4 +53,31 @@ aspnetcrypter --dk=0xa5e27...281146d52 --vk=0x507de...34e29a820f6 --purpose=owin
 0180: 30 34 3a 33 31 20 47 4d 54 07 2e 69 73 73 75 65  04:31.GMT..issue
 0190: 64 1d 54 75 65 2c 20 32 32 20 4e 6f 76 20 32 30  d.Tue,.22.Nov.20
 01a0: 31 36 20 31 35 3a 30 34 3a 33 31 20 47 4d 54     16.15:04:31.GMT
+```
+
+ASP.NET Key Derive Tool (AspNetDerive)
+-------------------------------------
+
+A tool to calculate the derived ASP.NET keys, based on a master key. The command line looks as follows:
+
+```
+AspNetDerive v1.0.0.0 - AspNetDerive - a tool to create the derivative ASP.NET keys
+Copyright c 2016 Sebastian Solnica (@lowleveldesign)
+
+Usage: aspnetderive [OPTIONS]
+
+Options:
+  -k, --key=VALUE            the validation key (in hex)
+  -c, --context=VALUE        the context
+  -l, --labels=VALUE         the labels, separated by commas
+  -h, --help                 show this message and exit
+  -?                         show this message and exit
+```
+
+Example usage:
+
+```
+PS Debug> .\AspNetDerive.exe -k 1726E744C1FF4A6E84A1B511CDDADD10A1AB082044238A10533F8BBB87201926 -c "MachineKeyDerivation" -l "IsolateApps: /"
+0000: f2 e0 94 2f 79 0a d1 bb 01 eb 90 50 5c 8b b8 c0  oa./y.N».ë.P\..A
+0010: f5 28 41 9b bc fb 6a e2 42 cc cc 7b 51 52 53 8c  o(A..ujâBII{QRS.
 ```
