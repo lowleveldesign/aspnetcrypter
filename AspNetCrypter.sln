@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCrypter", "AspNetCrypter\AspNetCrypter.csproj", "{9B71A758-F3B5-4C19-BA7A-9546DA73F60B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetDerive", "AspNetDerive\AspNetDerive.csproj", "{7BEFDB83-2FD1-4C5C-9818-B96948F98378}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9B71A758-F3B5-4C19-BA7A-9546DA73F60B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B71A758-F3B5-4C19-BA7A-9546DA73F60B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B71A758-F3B5-4C19-BA7A-9546DA73F60B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BEFDB83-2FD1-4C5C-9818-B96948F98378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BEFDB83-2FD1-4C5C-9818-B96948F98378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BEFDB83-2FD1-4C5C-9818-B96948F98378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BEFDB83-2FD1-4C5C-9818-B96948F98378}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
