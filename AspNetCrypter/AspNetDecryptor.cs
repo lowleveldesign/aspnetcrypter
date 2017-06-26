@@ -29,23 +29,20 @@ namespace LowLevelDesign.AspNetCrypter
             return isGzipped ? Decompress(decryptedData) : decryptedData;
         }
 
+
         private byte[] Decompress(byte[] data)
         {
-			using (MemoryStream memoryStream = new MemoryStream(data))
-			{
-				using (GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
-				{
-                    var bigBuffer = new List<byte>(2048);
-                    var buffer = new byte[512];
-                    int read = 0;
-                    while ((read = gZipStream.Read(buffer, 0, buffer.Length)) == buffer.Length) {
-                        bigBuffer.AddRange(buffer);
+            using (var ms = new MemoryStream(data))
+            {
+                using (MemoryStream decomp = new MemoryStream())
+                {
+                    using (GZipStream gzip = new GZipStream(ms, CompressionMode.Decompress))
+                    {
+                        gzip.CopyTo(decomp);
                     }
-                    var result = new byte[bigBuffer.Count + read];
-                    Array.Copy(buffer, 0, result, bigBuffer.Count, read);
-                    return result;
-				}
-			}
+                    return decomp.ToArray();
+                }
+            }
         }
 
         private class GuessCryptoAlgorithmFactory : ICryptoAlgorithmFactory

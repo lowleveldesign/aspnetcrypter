@@ -2,6 +2,7 @@ using NDesk.Options;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Security.Cryptography;
@@ -23,7 +24,7 @@ namespace LowLevelDesign.AspNetCrypter
         public static void Main(string[] args)
         {
             string validationKeyAsText = null, decryptionKeyAsText = null,
-                textToDecrypt = null, purposeKey = null;
+                textToDecrypt = null, purposeKey = null, fileToDecrypt = null;
             bool showhelp = false, isBase64 = false;
 
             var p = new OptionSet
@@ -32,13 +33,22 @@ namespace LowLevelDesign.AspNetCrypter
                 { "dk=", "the decryption key (in hex)", v => decryptionKeyAsText = v },
                 { "p|purpose=", "the encryption context\n(currently only: owin.cookie)", v => purposeKey = v },
                 { "base64", "data is provided in base64 format (otherwise we assume hex)", v => isBase64 = v != null },
+                { "i|input=", "input data file (when too big for command line)", v => fileToDecrypt = v },
                 { "h|help", "Show this message and exit", v => showhelp = v != null },
                 { "?", "Show this message and exit", v => showhelp = v != null }
             };
 
             try {
                 textToDecrypt = p.Parse(args).FirstOrDefault();
-            } catch (OptionException ex) {
+                if (textToDecrypt == null && fileToDecrypt != null)
+                {
+                    if (!File.Exists(fileToDecrypt))
+                        throw new OptionException("input file does not exist", "input");
+                    textToDecrypt = File.ReadAllText(fileToDecrypt);
+                }
+
+            }
+            catch (OptionException ex) {
                 Console.Error.Write("ERROR: invalid argument, ");
                 Console.Error.WriteLine(ex.Message);
                 Console.Error.WriteLine();
